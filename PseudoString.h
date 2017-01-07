@@ -17,6 +17,7 @@ public:
 	void setText(char*);
 
 	friend PseudoString operator+(PseudoString const& left, PseudoString const& right);
+	friend PseudoString operator+(PseudoString const& left, char* const& right);
 	friend PseudoString operator+(PseudoString const& left, char const& right);
 	friend PseudoString operator+(char const& left, PseudoString const& right);
 
@@ -49,6 +50,8 @@ private:
 	int size;
 };
 
-double pstod(PseudoString&);
+double pstod(PseudoString&);//please dont try anything different than numbers(and a single '.') here
+int psToInt(PseudoString&); // same as below but with PS's text
+//int charArrToInt(char*);// transforms a "string" to int
 PseudoString to_PseudoString(double const& number);
 

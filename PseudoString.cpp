@@ -68,8 +68,9 @@ void PseudoString::setText(char* input)
 {
 	short newSize = 0;
 
-	for (newSize; input[newSize]; newSize++);
+	for (; input[newSize]; newSize++);
 
+	delete[] text;
 	text = new char[newSize + 1];
 	size = newSize;
 
@@ -81,7 +82,7 @@ void PseudoString::setText(char* input)
 	text[newSize] = NULL;
 }
 
-PseudoString operator+(PseudoString const &left, PseudoString const &right) // not functional yet, should also fucking swap the fucking left/ right thingies
+PseudoString operator+(PseudoString const &left, PseudoString const &right) // not functional yet, should also swap the left/ right thingies
 {
 	PseudoString newOne;
 	int newSize = 0;
@@ -118,7 +119,7 @@ PseudoString operator+(PseudoString const& left, char const& right)
 	newOne.text = new char[left.size + 1 + 1];
 	int i = 0;
 
-	for (i; i < left.size; i++)
+	for (; i < left.size; i++)
 	{
 		newOne.text[i] = left.text[i];
 		newSize++;
@@ -126,6 +127,38 @@ PseudoString operator+(PseudoString const& left, char const& right)
 
 	newOne.text[newSize] = right;
 	newSize++;
+
+	newOne[newSize] = NULL;
+	newOne.size = newSize;
+
+	return newOne;
+}
+PseudoString operator+(PseudoString const& left, char* const& right)
+{
+	PseudoString newOne;
+	unsigned int newSize = 0;
+	unsigned int rightSize = 0;
+	unsigned int leftSize = left.size;
+
+	for (; right[rightSize]; rightSize++);
+
+	newOne.text = new char[leftSize + rightSize + 1];
+	unsigned int i = 0;
+
+	for (; i < leftSize; i++)
+	{
+		newOne.text[i] = left.text[i];
+	}
+
+	newSize = leftSize;
+
+	unsigned int endSize = leftSize + rightSize;
+
+	for (i=0; i < rightSize; i++)
+	{
+		newOne.text[newSize] = right[i];
+		newSize++;
+	}
 
 	newOne[newSize] = NULL;
 	newOne.size = newSize;
@@ -371,7 +404,35 @@ double pstod(PseudoString& word)
 	return flag * (actualNumber + decimalPart);
 }
 
-PseudoString& to_PseudoString(double const& d)
+
+int psToInt(PseudoString& word)//please dont try anything different than numbers here
+{
+	return 0;// charArrToInt(word.getText());
+}
+/*/
+int charArrToInt(char* word)//please dont try anything different than numbers here
+{
+	int number = 0;
+	bool amNegative = 0;
+	int i = 0;
+	if (word[0] == '-')
+	{
+		amNegative = 1;
+		i++;
+	}
+	for (; word[i]; i++)
+	{
+		number = number * 10 + (word[i] - 48);
+	}
+	if (amNegative)
+	{
+		number *= -1;
+	}
+
+	return number;
+}
+/*/
+PseudoString to_PseudoString(double const& d)
 {
 	char c[20];
 	sprintf_s(c, "%lf", d);
