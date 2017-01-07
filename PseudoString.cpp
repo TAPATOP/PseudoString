@@ -268,7 +268,6 @@ ostream& operator<<(ostream& out, PseudoString& me)
 //
 istream& operator>>(istream& input, PseudoString& me)
 {
-	char* a = new char [500];// large input issues...
 	input >> a;
 	me.setText(a);
 	return input;
